@@ -1,0 +1,126 @@
+//
+//  OAToken.m
+//  OAuthConsumer
+//
+//  Created by Jon Crosby on 10/19/07.
+//  Copyright 2007 Kaboomerang LLC. All rights reserved.
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
+
+
+#import "OAToken.h"
+
+
+@implementation OAToken
+
+@synthesize key = key_, secret = secret_;
+@synthesize verifier = verifier_;
+@synthesize expirationDate  =   expirationDate_;
+
+#pragma mark init
+
+- (id)init 
+{
+	if (self = [super init])
+	{
+		self.key = @"";
+		self.secret = @"";
+		self.verifier = @"";
+	}
+    return self;
+}
+
+- (id)initWithKey:(NSString *)aKey secret:(NSString *)aSecret 
+{
+	if (self = [super init])
+	{
+		self.key = aKey;
+		self.secret = aSecret;
+	}
+	return self;
+}
+
+- (id)initWithHTTPResponseBody:(NSString *)body 
+{
+	if (self = [super init])
+	{
+		NSArray *pairs = [body componentsSeparatedByString:@"&"];
+		
+		for (NSString *pair in pairs) {
+			NSArray * elements = [pair componentsSeparatedByString:@"="];
+			if ([[elements objectAtIndex:0] isEqualToString:@"oauth_token"]) {
+				self.key = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+			} else if ([[[pair componentsSeparatedByString:@"="] objectAtIndex:0] isEqualToString:@"oauth_token_secret"]) {
+				self.secret = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+			} else if ([[[pair componentsSeparatedByString:@"="] objectAtIndex:0] isEqualToString:@"oauth_verifier"]) {
+				self.verifier = [elements objectAtIndex:1];
+			}
+		}
+	}    
+	return self;
+}
+
+- (id)initWithUserDefaultsUsingServiceProviderName:(NSString *)provider prefix:(NSString *)prefix
+{
+	if (self = [super init])
+	{
+		NSString *theKey = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"OAUTH_%@_%@_KEY", prefix, provider]];
+		NSString *theSecret = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"OAUTH_%@_%@_SECRET", prefix, provider]];
+        NSDate *expirationDate = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"OAUTH_%@_%@_EXPIRATION", prefix, provider]];
+        
+		if (theKey == NULL || theSecret == NULL || expirationDate == NULL)
+			return(nil);
+		self.key = theKey;
+		self.secret = theSecret;
+        self.expirationDate = expirationDate;
+		[theKey release];
+		[theSecret release];
+        [expirationDate release];
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+	[self.key release];
+	[self.secret release];
+	[self.verifier release];
+	[super dealloc];
+}
+
+#pragma mark -
+
+- (int)storeInUserDefaultsWithServiceProviderName:(NSString *)provider prefix:(NSString *)prefix
+{
+	[[NSUserDefaults standardUserDefaults] setObject:self.key forKey:[NSString stringWithFormat:@"OAUTH_%@_%@_KEY", prefix, provider]];
+	[[NSUserDefaults standardUserDefaults] setObject:self.secret forKey:[NSString stringWithFormat:@"OAUTH_%@_%@_SECRET", prefix, provider]];
+    [[NSUserDefaults standardUserDefaults] setObject:self.expirationDate forKey:[NSString stringWithFormat:@"OAUTH_%@_%@_EXPIRATION", prefix, provider]];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	return(0);
+}
+
++ (int)signOutWithServiceProviderName:(NSString *)provider prefix:(NSString *)prefix
+{
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:[NSString stringWithFormat:@"OAUTH_%@_%@_KEY", prefix, provider]];
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:[NSString stringWithFormat:@"OAUTH_%@_%@_SECRET", prefix, provider]];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:[NSString stringWithFormat:@"OAUTH_%@_%@_EXPIRATION", prefix, provider]];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	return (0);
+}
+@end
