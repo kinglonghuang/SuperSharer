@@ -129,13 +129,13 @@ libz.dylib
 1.登录https://dev.twitter.com/apps ,点击 Register a new app
 
 2.填写注册信息 ，注意：
-*Application type 栏选择 Browser ,callback url 填上回调的地址（例如 http://twitterLoginSucceed.com）,Default Access type必须选择 Read&write*
+*Application type 栏选择 Browser ,callback url 填上回调的地址（例如 http://twitterLoginSucceed.com） ,Default Access type必须选择 Read&write*
 
 3.用刚注册的app的 Consumer key 和 Consumer sercret 替换工程文件ShareConfig.h中的 TWITTER_CONSUMER_KEY和TWITTER_CONSUMER_SECRET
 
 4.用刚填写的callback url中的主机地址（例如以上url中的twitterLoginSucceed.com）  替换Shareconfig.h中的TWITTER_WEB_DOMAIN
 
-5.登录 http://dev.twitpic.com/apps/new，填写注册信息，获得TwitPic API KEY，用来替换工程文件Shareconfig.h中的TWITPIC_API_KEY
+5.登录 http://dev.twitpic.com/apps/new ,填写注册信息，获得TwitPic API KEY，用来替换工程文件Shareconfig.h中的TWITPIC_API_KEY
 
 
 
@@ -152,7 +152,7 @@ libz.dylib
 
 ######SinaMB
 
-1.登录 http://open.t.sina.com.cn/，点击“我的应用”，进入后再点击右下角的“创建应用”
+1.登录 http://open.t.sina.com.cn/ ，点击“我的应用”，进入后再点击右下角的“创建应用”
 
 2.填写注册信息，完成后可获得app key  和 app secret,用这两个值替换工程文件ShareConfig.h中的SIINA_CONSUMER_KEY 和 SINA_CONSUMER_SECRET
 
