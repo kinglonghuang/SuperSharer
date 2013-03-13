@@ -6,13 +6,13 @@ SuperSharer
 
 SuperSharer功能介绍：
 
-1.支持分享 文字，图片，视频，链接，支持保存网页到书签网站
+1. 支持分享 文字，图片，视频，链接，支持保存网页到书签网站
 
-2.分享项采用OAuth授权，保护用户帐号安全
+2. 分享项采用OAuth授权，保护用户帐号安全
 
-3.统一的应用程序内授权界面，无需切换到Safari授权，提升了用户体验
+3. 统一的应用程序内授权界面，无需切换到Safari授权，提升了用户体验
 
-4.模块定制简单，可轻松增减分享项目
+4. 模块定制简单，可轻松增减分享项目
 
 已支持的分享项目：
 
@@ -27,11 +27,11 @@ facebook , twitter ,flickr ,YouTube , Instapaper , ReadItLater , 新浪微博�
 1. 将shareUnit文件夹导入到你的工程
 
 2. 添加以下Framework到你的工程中：
-*MobileCoreServices.framework
-*SystemConfiguration.framework
-*CFNetwork.framework
-*Security.framework
-*libz.dylib
+MobileCoreServices.framework
+SystemConfiguration.framework
+CFNetwork.framework
+Security.framework
+libz.dylib
 							
 3. 工程Target Info 中的 Other Linker Flags 添加 -lxml2
 							
@@ -41,15 +41,13 @@ facebook , twitter ,flickr ,YouTube , Instapaper , ReadItLater , 新浪微博�
 开始使用：
 
 1. 引入头文件：
-#import "ShareConfig.h"
-#import "ShareItem.h"
+\#import "ShareConfig.h"
+\#import "ShareItem.h"
 
 2. 初始化分享项的实例，例如：
-
 	shareItem  = [[ShareItem alloc] initForItem:FacebookID delegate:self];
 
 3. 开始分享：
-
 	[shareItem shareImage:image withDescription:@"my new photo"];
 
 4. 你的类通过实现 ShareDelegate 协议来处理 SuperSharer的回馈信息（具体接口请参考ShareConfig.h中的ShareDelegate协议），例如:
@@ -65,7 +63,6 @@ facebook , twitter ,flickr ,YouTube , Instapaper , ReadItLater , 新浪微博�
 	[shareItem login];
 
 如果需要分享，可直接调用分享方法，SuperSharer 会确保用户先登录，然后自动开始上传 
-
 	[shareItem shareImage:image withDescription:@"my new photo"];
 
 因为登录过程没有阻塞，所以不能出现以下顺序调用：
@@ -91,12 +88,10 @@ facebook , twitter ,flickr ,YouTube , Instapaper , ReadItLater , 新浪微博�
 	}
 
 3. 当用户取消授权时（点击取消按钮或点击关闭按钮），你将有机会收到该消息，执行关闭前的动作 并决定是否可以关闭登录窗口
-
 	- (BOOL)dialogShouldClose
 	{
 		return YES;  //可以关闭窗口
 	}
-
 4. 去除不需要的分享项：
  
 删除对应项的文件夹，在ShareConfig.h文件中删除对应项ID的宏定义
