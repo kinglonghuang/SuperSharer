@@ -129,7 +129,7 @@ libz.dylib
 1.登录https://dev.twitter.com/apps ,点击 Register a new app
 
 2.填写注册信息 ，注意：
-*Application type 栏选择 Browser ,callback url 填上回调的地址（例如 http://twitterLoginSucceed.com） ,Default Access type必须选择 Read&write*
+*Application type 栏选择 Browser ,callback url 填上回调的地址（例如 http://twitterLoginSucceed.com ） ,Default Access type必须选择 Read&write*
 
 3.用刚注册的app的 Consumer key 和 Consumer sercret 替换工程文件ShareConfig.h中的 TWITTER_CONSUMER_KEY和TWITTER_CONSUMER_SECRET
 
