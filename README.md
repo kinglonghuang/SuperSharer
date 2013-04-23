@@ -26,19 +26,19 @@ facebook , twitter ,flickr , Instapaper , ReadItLater , 新浪微博，腾讯�
 
 1. 将shareUnit文件夹导入到你的工程
 
-2. 添加以下Framework到你的工程中：
-MobileCoreServices.framework
-SystemConfiguration.framework
-CFNetwork.framework
-Security.framework
+2. 添加以下Framework到你的工程中：<br>
+MobileCoreServices.framework<br>
+SystemConfiguration.framework<br>
+CFNetwork.framework<br>
+Security.framework<br>
 libz.dylib
 							
 3. 工程Target Info 中的 Other Linker Flags 添加 -lxml2
 						
 ####开始使用：
 
-1.引入头文件：
-\#import "ShareConfig.h"
+1.引入头文件：<br>
+\#import "ShareConfig.h"<br>
 \#import "ShareItem.h"
 
 2.初始化分享项的实例，例如：
